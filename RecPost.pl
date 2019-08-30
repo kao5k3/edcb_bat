@@ -9,32 +9,43 @@ use utf8;
 use strict;
 use warnings;
 
-# 引数取得
+# このスクリプトを配置する場所
+my $self_path = 'C:\PT2\EDCB\Bat\RecPost.pl';
+
+# 引数
 #
-#	addkey: 予約録画時のキーワード (ex. "相棒")
+#	-a | --addkey
+#				予約録画時のキーワード (ex. "相棒")
 #
-#	debug: デバッグモード
+#	-d | --debug
+#				デバッグモード
 #
-#	filepath: 入力ファイルパス (ex. "E:\Temp\Video\サンプル.ts")
+#	-f | --filepath
+#				入力ファイルパス (ex. "E:\Temp\Video\サンプル.ts")
 #
-#	genre: 番組のジャンル (ex. "ドラマ")
-#		入力ファイルがあるディレクトリの下に {ジャンル} フォルダを作成し、その
-#		下に入力ファイルを移動する。
+#	-g | --genre
+#				番組のジャンル (ex. "ドラマ")
+#				入力ファイルがあるディレクトリの下に {ジャンル} フォルダを
+#				作成し、その下にファイルを移動する。
 #
-#   renban: ファイル名を連番にする（-t と併用すると連番＋タイトルになる）
+#	-r | --renban
+#				ファイル名を連番にする
+#				-t と併用可（連番＋タイトルになる）
 #
-#	series: genre フォルダの下に、更に addkey フォルダを作成する
-#		有効であった場合は "ドラマ\相棒\" や "アニメ\サザエさん\" といったフォ
-#		ルダを作成し、その下に入力ファイルを移動する。
+#	-s | --series
+#				genre フォルダの下に、更に addkey フォルダを作成する
+#				有効であった場合は "ドラマ\相棒\" や "アニメ\サザエさん\"
+#				といったフォルダを作成し、その下にファイルを移動する
 #
-#	title: ファイル名をタイトルに変更する
+#	-t | --title
+#				ファイル名をいい感じのタイトル名に変更する
 #
 my %opts = ();
 GetOptions(\%opts, 'addkey=s', 'debug', 'filepath=s', 'genre=s', 'renban', 'series', 'title');
 	
 # 必須パラメータがない ＝ バッチファイル生成
 unless ($opts{filepath}) {
-	&generate_batch_files;
+	&generate_batch_files($self_path);
 	exit;
 }
 
@@ -394,32 +405,32 @@ sub delete_episode_number {
 
 # バッチファイルを生成
 sub generate_batch_files {
-	my $batch = 'C:\PT2\EDCB\Bat\RecPost.pl';
+	my $self = shift;
 	my @genre = ('アニメ','スポーツ','ドラマ','バラエティ','映画','音楽','教養','趣味');
 	my %series = ('アニメ' => 1, 'ドラマ' => 1, 'バラエティ' => 1, '音楽' => 1, '教養' => 1, '趣味' => 1);
 	my %title =('バラエティ' => 1, '音楽' => 1, '教養' => 1, '趣味' => 1);
 	my %seq = ();
 	my %seq_and_title = ('アニメ' => 1, 'ドラマ' => 1, '趣味' => 1);
 	
-	&output_batch_file('デフォルト.bat', $batch, "", 0, 0, 0);
+	&output_batch_file('デフォルト.bat', $self, "", 0, 0, 0);
 	foreach my $target (@genre) {
 		my $filename = $target . '.bat';
-		&output_batch_file($filename, $batch, $target, 0, 0, 0);
+		&output_batch_file($filename, $self, $target, 0, 0, 0);
 		if ($series{$target}) {
 			$filename = $target . '_シリーズ.bat';
-			&output_batch_file($filename, $batch, $target, 1, 0, 0);
+			&output_batch_file($filename, $self, $target, 1, 0, 0);
 		}
 		if ($title{$target}) {
 			$filename = $target . '_シリーズ_副題.bat';
-			&output_batch_file($filename, $batch, $target, 1, 1, 0);
+			&output_batch_file($filename, $self, $target, 1, 1, 0);
 		}
 		if ($seq{$target}) {
 			$filename = $target . '_シリーズ_連番.bat';
-			&output_batch_file($filename, $batch, $target, 1, 0, 1);
+			&output_batch_file($filename, $self, $target, 1, 0, 1);
 		}
 		if ($seq_and_title{$target}) {
 			$filename = $target . '_シリーズ_連番＋副題.bat';
-			&output_batch_file($filename, $batch, $target, 1, 1, 1);
+			&output_batch_file($filename, $self, $target, 1, 1, 1);
 		}
 	}
 }
@@ -427,14 +438,14 @@ sub generate_batch_files {
 # バッチファイルを出力
 sub output_batch_file {
 	my $filename = shift;
-	my $batch = shift;
+	my $self = shift;
 	my $genre = shift;
 	my $series = shift;
 	my $title = shift;
 	my $renban = shift;
 	
 	$filename = encode('CP932', $filename);
-	$batch = encode('CP932', $batch);
+	$self = encode('CP932', $self);
 	$genre = encode('CP932', $genre);
 	
 	open(OUT, "> $filename") or die "$!";
@@ -447,7 +458,7 @@ sub output_batch_file {
 	print OUT encode('CP932', 'rem -t : ファイル名をタイトルにする'), "\n";
 	print OUT encode('CP932', 'rem -r : ファイル名を連番にする（-t と併用すると連番＋タイトルになる）'), "\n";
 	print OUT "\n";
-	print OUT $batch, ' -f "$FilePath$" -g "', $genre, '" -a "$AddKey$"';
+	print OUT $self, ' -f "$FilePath$" -g "', $genre, '" -a "$AddKey$"';
 	print OUT ' -s' if ($series);
 	print OUT ' -t' if ($title);
 	print OUT ' -r' if ($renban);
