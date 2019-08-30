@@ -54,7 +54,7 @@ EDCBで録画後に実行する Perlスクリプト。一度うっかりロー�
 * EDCB フォルダの下に Bat というサブフォルダを掘って RecPost.pl を奥く
 * RecPost.pl 内の以下のパスを RecPost.pl を置いたパスに合わせて変更
 
-    	my $batch = 'C:\PT2\EDCB\Bat\RecPost.pl';
+    	my $self_path = 'C:\PT2\EDCB\Bat\RecPost.pl';
 
 * RecPost.pl をダブルクリックして実行（EDCBからこのスクリプトを呼び出すバッチが生成される）
 * EDCB(EpgTimer)を再起動
