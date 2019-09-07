@@ -410,7 +410,7 @@ sub generate_batch_files {
 	my %series = ('アニメ' => 1, 'ドラマ' => 1, 'バラエティ' => 1, '音楽' => 1, '教養' => 1, '趣味' => 1);
 	my %title =('バラエティ' => 1, '音楽' => 1, '教養' => 1, '趣味' => 1);
 	my %seq = ();
-	my %seq_and_title = ('アニメ' => 1, 'ドラマ' => 1, '趣味' => 1);
+	my %seq_and_title = ('アニメ' => 1, 'ドラマ' => 1, '教養' => 1, '趣味' => 1);
 	
 	&output_batch_file('デフォルト.bat', $self, "", 0, 0, 0);
 	foreach my $target (@genre) {
