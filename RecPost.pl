@@ -114,6 +114,9 @@ sub get_outfile_name {
 	# ディスカバリーによくある "(二)" が邪魔なので消去
 	$infile_name =~ s/\(二\).ts$/.ts/;
 	
+	# ディスカバリーで稀にある "(日)" も邪魔なので消去
+	$infile_name =~ s/\(日\).ts$/.ts/;
+	
 	# ファイル名からタイトルを抽出
 	my $title = "";
 	if ($title_mode) {
