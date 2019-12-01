@@ -158,6 +158,8 @@ sub move_file {
 	
 	my $bakdir_path = $outdir_path . "\\前回";
 	my $bakfile_path = $bakdir_path . "\\" . $outfile_name;
+	my $bakbakdir_path = $outdir_path . "\\前々回";
+	my $bakbakfile_path = $bakbakdir_path . "\\" . $outfile_name;
 	
 	$infile_path = encode('CP932', $infile_path);
 	$outdir_path = encode('CP932', $outdir_path);
@@ -180,6 +182,10 @@ sub move_file {
 		# バックアップディレクトリを作成
 		mkpath($bakdir_path) unless (-e $bakdir_path);
 		# バックアップ
+		if (-f $bakfile_path) {
+			mkpath($bakbakdir_path) unless (-e $bakbakdir_path);
+			move($bakfile_path, $bakbakfile_path);
+		}
 		move($outfile_path, $bakfile_path);
 	}
 	
