@@ -167,6 +167,8 @@ sub move_file {
 	
 	$bakdir_path = encode('CP932', $bakdir_path);
 	$bakfile_path = encode('CP932', $bakfile_path);
+	$bakbakdir_path = encode('CP932', $bakbakdir_path);
+	$bakbakfile_path = encode('CP932', $bakbakfile_path);
 	
 	# 入力ファイルが存在するか確認
 	return unless (-f $infile_path);
