@@ -214,6 +214,8 @@ sub update_folder_utime {
 # 半角の記号をファイルやフォルダ名に使える全角に変更
 sub safe_string {
 	my %replacechars = (
+		'('  => '（',
+		')'  => '）',
 		':'  => '：',
 		';'  => '；',
 		'/'  => '／',
@@ -228,7 +230,7 @@ sub safe_string {
 		'&'  => '＆',
 		'"'  => '”',
 		'<'  => '＜',
-		'>'  => '＞'
+		'>'  => '＞',
 	);
 	my $arg = shift;
 	while(my ($b, $a) = each(%replacechars)) {
