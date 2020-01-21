@@ -230,7 +230,7 @@ sub safe_string {
 		'&'  => '＆',
 		'"'  => '”',
 		'<'  => '＜',
-		'>'  => '＞',
+		'>'  => '＞'
 	);
 	my $arg = shift;
 	while(my ($b, $a) = each(%replacechars)) {
