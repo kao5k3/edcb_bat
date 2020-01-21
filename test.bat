@@ -2,6 +2,11 @@
 
 set RECPOST="%~dp0\RecPost.pl"
 
+set FILEPATH="D:\Videos\テレビ\麒麟（きりん）がくる　（１）「光秀、西へ」.ts"
+set ADDKEY="麒麟（きりん）がくる"
+set GENRE="ドラマ"
+call :SubRoutine
+
 set FILEPATH="D:\Videos\テレビ\金曜ドラマ「凪のお暇」（なぎのおいとま） 第０７話.ts"
 set ADDKEY="凪のお暇"
 set GENRE="ドラマ"
