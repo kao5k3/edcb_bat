@@ -394,8 +394,7 @@ sub extract_episode_number {
 	# 出力先フォルダにある最大値を検査
 	my $renban = 1;
 	chdir(encode('CP932', $outdir_path));
-	my @ts_files = glob "*\.ts";
-	foreach my $file (@ts_files) {
+	foreach my $file (glob "*\.ts *\.mp4") {
 		$file = decode('CP932', $file);
 		# 保存先にあるファイルに付いている連番値を抽出
 		next unless $file =~ /\#(\d+)/;
